@@ -4,13 +4,6 @@
 
 Prosty projekt gry Tetris, napisany w języku C++ przy użyciu biblioteki SFML. Gra skupia się na układaniu klocków w taki sposób, aby tworzyć pełne poziome linie, które znikają, zdobywając punkty. 
 
-## Instrukcja instalacji i konfiguracji
-
-1. Sklonuj repozytorium do wybranej lokalizacji na dysku.
-2. Otwórz projekt w środowisku Visual Studio 2022.
-3. Skonfiguruj projekt DLL zgodnie z instrukcjami zawartymi w pliku README.
-4. Dodaj konfigurację dla biblioteki SFML, aby umożliwić poprawne kompilowanie projektu.
-
 ## Działanie programu
 
 1. **Rozpoczęcie gry:** Po uruchomieniu gry użytkownik znajduje się w menu głównym, gdzie może rozpocząć nową grę, wyświetlić listę najlepszych wyników lub zakończyć grę.
