@@ -10,6 +10,10 @@ Menu::Menu(sf::RenderWindow& window) : window(window), gameStartClicked(false), 
     if (!titleFont.loadFromFile("tetris.ttf")) {
         throw std::runtime_error("Unable to load font");
     }
+    if (!menuTexture.loadFromFile("menu.png")) {
+        throw std::runtime_error("Unable to load menu image");
+    }
+	menuSprite.setTexture(menuTexture);
 
     title.setFont(titleFont);
     title.setString("tetris");
@@ -33,13 +37,13 @@ Menu::Menu(sf::RenderWindow& window) : window(window), gameStartClicked(false), 
     scoresText.setString("High Scores");
     scoresText.setCharacterSize(30);
     scoresText.setFillColor(sf::Color::White);
-    scoresText.setPosition(280, 280);
+    scoresText.setPosition(280, 290);
 
     quitText.setFont(font);
     quitText.setString("Quit");
     quitText.setCharacterSize(30);
     quitText.setFillColor(sf::Color::White);
-    quitText.setPosition(280, 330);
+    quitText.setPosition(280, 350);
 
     loadHighScores();
 
@@ -81,18 +85,40 @@ void Menu::update() {
 }
 
 void Menu::draw() {
-    window.clear(); // Wyczyœæ ekran przed narysowaniem menu
+    window.clear();
+    window.draw(menuSprite); // Narysuj t³o menu
+
     if (scoresScreenVisible) {
         drawScoresScreen();
     }
     else {
+        // Calculate the bounding box for all the menu options
+        float minX = std::min({ startText.getPosition().x, scoresText.getPosition().x, quitText.getPosition().x });
+        float minY = std::min({ startText.getPosition().y, scoresText.getPosition().y, quitText.getPosition().y });
+        float maxX = std::max({ startText.getPosition().x + startText.getLocalBounds().width,
+                                scoresText.getPosition().x + scoresText.getLocalBounds().width,
+                                quitText.getPosition().x + quitText.getLocalBounds().width });
+        float maxY = std::max({ startText.getPosition().y + startText.getLocalBounds().height,
+                                scoresText.getPosition().y + scoresText.getLocalBounds().height,
+                                quitText.getPosition().y + quitText.getLocalBounds().height });
+
+        // Create background rectangle
+        sf::RectangleShape menuBackground(sf::Vector2f(maxX - minX + 20, maxY - minY + 40));
+        menuBackground.setFillColor(sf::Color::Black);
+        menuBackground.setPosition(minX - 10, minY - 20);
+
+        // Draw background rectangle
+        window.draw(menuBackground);
+
+        // Draw texts
         window.draw(title);
-        window.draw(titleText);
         window.draw(startText);
         window.draw(scoresText);
         window.draw(quitText);
     }
 }
+
+
 
 bool Menu::isStartGameClicked() const {
     return gameStartClicked;

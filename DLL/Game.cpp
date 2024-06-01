@@ -9,6 +9,9 @@ Game::Game(sf::RenderWindow& window) : window(window), score(0), boardPosition(3
     if (!font.loadFromFile("arial.ttf")) {
         throw std::runtime_error("Unable to load font");
     }
+	if (!gameOverFont.loadFromFile("tetris.ttf")) {
+		throw std::runtime_error("Unable to load font");
+	}
     scoreText.setFont(font);
     scoreText.setCharacterSize(24);
     scoreText.setFillColor(sf::Color::White);
@@ -102,10 +105,10 @@ void Game::saveScore(const std::string& playerName, int score) {
 
 void Game::showGameOverScreen() {
     sf::Text gameOverText;
-    gameOverText.setFont(font);
+    gameOverText.setFont(gameOverFont);
     gameOverText.setCharacterSize(72);
     gameOverText.setFillColor(sf::Color::Red);
-    gameOverText.setString("Game Over!");
+    gameOverText.setString("game over");
     gameOverText.setPosition((window.getSize().x - gameOverText.getLocalBounds().width) / 2, 100);
 
     sf::Text scoreText;
@@ -128,18 +131,21 @@ void Game::showGameOverScreen() {
     playerNameText.setFillColor(sf::Color::White);
     playerNameText.setPosition(enterNameText.getPosition().x + enterNameText.getLocalBounds().width + 20, enterNameText.getPosition().y);
 
-    sf::RectangleShape saveButtonRect(sf::Vector2f(100, 40));
+    sf::RectangleShape saveButtonRect(sf::Vector2f(160, 70)); // Zmieniamy wysokość prostokąta na 70
     saveButtonRect.setFillColor(sf::Color::White);
     saveButtonRect.setOutlineColor(sf::Color::Black);
     saveButtonRect.setOutlineThickness(2);
-    saveButtonRect.setPosition((window.getSize().x - saveButtonRect.getSize().x) / 2, 500);
+    saveButtonRect.setPosition((window.getSize().x - saveButtonRect.getSize().x) / 2, 500); // Wyrównujemy prostokąt do środka ekranu
 
     sf::Text saveButtonText;
     saveButtonText.setFont(font);
     saveButtonText.setCharacterSize(24);
     saveButtonText.setFillColor(sf::Color::Black);
     saveButtonText.setString("Save");
-    saveButtonText.setPosition(saveButtonRect.getPosition().x + (saveButtonRect.getSize().x - saveButtonText.getLocalBounds().width) / 2, saveButtonRect.getPosition().y + (saveButtonRect.getSize().y - saveButtonText.getLocalBounds().height) / 2);
+
+    // Ustawiamy pozycję tekstu na środku prostokąta
+    saveButtonText.setPosition(saveButtonRect.getPosition().x + (saveButtonRect.getSize().x - saveButtonText.getLocalBounds().width) / 2,
+        saveButtonRect.getPosition().y + (saveButtonRect.getSize().y - saveButtonText.getLocalBounds().height) / 2);
 
     std::string playerName;
     bool nameEntered = false;
