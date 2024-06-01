@@ -18,7 +18,7 @@ Prosty projekt gry Tetris, napisany w języku C++ przy użyciu biblioteki SFML. 
 
    ![image](https://github.com/kxkarcz/jipp/assets/76162499/89539b67-2382-4129-82cb-6b7b7349b597)
 
-4. **Tabela najlepszych wyników:** Gracz może przeglądać tabelę najlepszych wyników z głównego menu, gdzie wyświetlane są nazwy graczy i ich punkty.
+4. **Tabela najlepszych wyników:** Gracz może przeglądać tabelę najlepszych wyników z głównego menu, gdzie wyświetlane są nazwy graczy i ich punkty. Tabela pokazuje tylko 5 najlepszych wyników jednak za pomocą scrolla w myszcze możemy przewijać dalej
 
    ![image](https://github.com/kxkarcz/jipp/assets/76162499/5208441d-83a1-4721-9110-a50b70595fd4)
 
