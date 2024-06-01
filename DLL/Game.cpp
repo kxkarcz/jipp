@@ -1,11 +1,11 @@
-#include "Game.h"
+ï»¿#include "Game.h"
 #include "Menu.h"
 #include <fstream>
 #include <stdexcept>
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
-Game::Game(sf::RenderWindow& window) : window(window), score(0) {
+Game::Game(sf::RenderWindow& window) : window(window), score(0), boardPosition(300.0f, 0.0f) {
     if (!font.loadFromFile("arial.ttf")) {
         throw std::runtime_error("Unable to load font");
     }
@@ -28,18 +28,23 @@ void Game::update() {
             score += board.clearLines();
             tetromino.reset();
             if (board.checkGameOver(tetromino.getShape(), tetromino.getPosition())) {
-                showGameOverScreen(); // Wywo³anie ekranu gratulacyjnego po przegranej grze
+                showGameOverScreen(); // Wywoï¿½anie ekranu gratulacyjnego po przegranej grze
                 reset(); // Zresetowanie gry po przegranej
             }
         }
         clock.restart();
     }
     scoreText.setString("Score: " + std::to_string(score));
+	scoreText.setPosition(window.getSize().x - scoreText.getLocalBounds().width - 600, 10);
+	scoreText.setCharacterSize(40);
 }
 
 void Game::draw() {
-    board.draw(window);
+
+	board.draw(window, boardPosition);
     tetromino.draw(window);
+    //scoreText.setPosition(window.getSize().x - scoreText.getLocalBounds().width-500, 0);
+
     window.draw(scoreText);
 }
 
@@ -61,24 +66,7 @@ void Game::handleInput(sf::Event& event) {
 }
 
 
-void Game::saveGame(const std::string& filename) {
-    std::ofstream file(filename);
-    if (!file.is_open()) {
-        throw std::runtime_error("Unable to open file for saving");
-    }
-    file << score << "\n";
-    file << tetromino.getPosition().x << " " << tetromino.getPosition().y << "\n";
-    for (const auto& block : tetromino.getShape()) {
-        file << block.x << " " << block.y << "\n";
-    }
-    for (int y = 0; y < Board::HEIGHT; ++y) {
-        for (int x = 0; x < Board::WIDTH; ++x) {
-            file << board.getBlock(x, y).toInteger() << " ";
-        }
-        file << "\n";
-    }
-    file.close();
-}
+
 
 void Game::loadGame(const std::string& filename) {
     std::ifstream file(filename);
@@ -176,11 +164,9 @@ void Game::showGameOverScreen() {
                     sf::Vector2f mousePos = window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
                     if (saveButtonRect.getGlobalBounds().contains(mousePos)) {
                         nameEntered = true;
-						std::cout << score << std::endl;
+                        std::cout << score << std::endl;
                         saveScore(playerName, score);
-						menu.loadHighScores();
-                        menu.reset();
-                        reset(); // Zresetuj grê po zapisaniu wyniku
+                        menu.loadHighScores();
                     }
                 }
             }
@@ -196,18 +182,26 @@ void Game::showGameOverScreen() {
         window.display();
     }
 
-    // Wyœwietlanie menu g³ównego po zapisaniu wyniku
+    menu.reset();
+
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
-            if (menu.isShowScoresClicked()) {
+            if (event.type == sf::Event::Closed) {
+                window.close();
+            }
+            if (menu.scoresScreenVisible) {
                 menu.handleScoresScreenInput(event);
             }
             else {
-                if (event.type == sf::Event::Closed) {
-                    window.close();
-                }
                 menu.handleInput(event);
+                if (menu.isStartGameClicked()) {
+                    reset();
+                    return;
+                }
+                if (menu.isShowScoresClicked()) {
+                    menu.setShowScores(true);
+                }
             }
         }
 
@@ -216,3 +210,4 @@ void Game::showGameOverScreen() {
         window.display();
     }
 }
+

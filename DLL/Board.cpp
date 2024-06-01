@@ -1,6 +1,6 @@
 #include "Board.h"
 #include <SFML/Graphics.hpp>
-
+#include "Game.h"
 Board::Board() {
     reset();
 }
@@ -13,28 +13,27 @@ void Board::reset() {
     }
 }
 
-void Board::draw(sf::RenderWindow& window) {
+void Board::draw(sf::RenderWindow& window, sf::Vector2f position) {
+    // Rysowanie planszy
     sf::RectangleShape blockShape(sf::Vector2f(30.0f, 30.0f));
-    // Rysowanie czarnej planszy
     for (int y = 0; y < HEIGHT; ++y) {
         for (int x = 0; x < WIDTH; ++x) {
-            blockShape.setFillColor(sf::Color::Black); // Ustawienie koloru czarnej kratki
-            blockShape.setPosition(x * 30.0f, y * 30.0f);
-            window.draw(blockShape);
-        }
-    }
-    // Rysowanie szarych linii - kratki
-    for (int y = 0; y < HEIGHT; ++y) {
-        for (int x = 0; x < WIDTH; ++x) {
-            if (grid[y][x] == sf::Color::Black) {
-                blockShape.setFillColor(sf::Color(150, 150, 150)); // Ustawienie koloru szarej linii - kratki
-                blockShape.setPosition(x * 30.0f, y * 30.0f);
+            if (grid[y][x] != sf::Color::Black) {
+                blockShape.setFillColor(grid[y][x]);
+                blockShape.setPosition(x * 30.0f + position.x , y * 30.0f + position.y); // Ustawienie pozycji bloku planszy z uwzglêdnieniem przesuniêcia
                 window.draw(blockShape);
             }
         }
     }
-}
 
+    // Rysowanie obramowania
+    sf::RectangleShape borderShape(sf::Vector2f(WIDTH * 30.0f, HEIGHT * 30.0f));
+    borderShape.setFillColor(sf::Color::Transparent);
+    borderShape.setOutlineColor(sf::Color::White); // Ustawienie koloru obramowania na bia³y
+    borderShape.setOutlineThickness(2.0f); // Ustawienie gruboœci obramowania
+    borderShape.setPosition(position); // Ustawienie pozycji obramowania
+    window.draw(borderShape);
+}
 
 
 bool Board::isCollision(const std::vector<sf::Vector2i>& shape, sf::Vector2i position) const {

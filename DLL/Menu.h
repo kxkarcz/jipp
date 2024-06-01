@@ -13,6 +13,8 @@ private:
     size_t scrollIndex;
     sf::RenderWindow& window;
     sf::Font font;
+    sf::Text title;
+	sf::Font titleFont;
     sf::Text titleText;
     sf::Text startText;
     sf::Text scoresText;

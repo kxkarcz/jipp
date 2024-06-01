@@ -4,6 +4,7 @@
 #include <array>
 #include <cstdlib>
 #include <random>
+#include "Game.h"
 
 Tetromino::Tetromino() {
     reset();
@@ -38,7 +39,7 @@ void Tetromino::draw(sf::RenderWindow& window) {
     sf::RectangleShape blockShape(sf::Vector2f(30.0f, 30.0f));
     blockShape.setFillColor(color);
     for (const auto& block : shape) {
-        blockShape.setPosition((position.x + block.x) * 30.0f, (position.y + block.y) * 30.0f);
+        blockShape.setPosition((position.x + block.x+10.0f) * 30.0f, (position.y + block.y) * 30.0f);
         window.draw(blockShape);
     }
 }

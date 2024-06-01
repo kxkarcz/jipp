@@ -7,29 +7,39 @@ Menu::Menu(sf::RenderWindow& window) : window(window), gameStartClicked(false), 
     if (!font.loadFromFile("arial.ttf")) {
         throw std::runtime_error("Unable to load font");
     }
+    if (!titleFont.loadFromFile("tetris.ttf")) {
+        throw std::runtime_error("Unable to load font");
+    }
+
+    title.setFont(titleFont);
+    title.setString("tetris");
+    title.setCharacterSize(80);
+    title.setFillColor(sf::Color::Green);
+    title.setPosition(210, 10);
+
     titleText.setFont(font);
-    titleText.setString("Menu");
+    titleText.setString("MENU");
     titleText.setCharacterSize(50);
-    titleText.setFillColor(sf::Color::White);
-    titleText.setPosition(100, 50);
+    titleText.setFillColor(sf::Color::Yellow);
+    titleText.setPosition(300, 120);
 
     startText.setFont(font);
     startText.setString("Start Game");
     startText.setCharacterSize(30);
     startText.setFillColor(sf::Color::White);
-    startText.setPosition(100, 150);
+    startText.setPosition(280, 230);
 
     scoresText.setFont(font);
     scoresText.setString("High Scores");
     scoresText.setCharacterSize(30);
     scoresText.setFillColor(sf::Color::White);
-    scoresText.setPosition(100, 200);
+    scoresText.setPosition(280, 280);
 
     quitText.setFont(font);
     quitText.setString("Quit");
     quitText.setCharacterSize(30);
     quitText.setFillColor(sf::Color::White);
-    quitText.setPosition(100, 250);
+    quitText.setPosition(280, 330);
 
     loadHighScores();
 
@@ -50,28 +60,33 @@ Menu::Menu(sf::RenderWindow& window) : window(window), gameStartClicked(false), 
 void Menu::handleInput(sf::Event& event) {
     if (event.type == sf::Event::MouseButtonPressed) {
         sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-        if (startText.getGlobalBounds().contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y))) {
-            gameStartClicked = true;
-        }
-        else if (scoresText.getGlobalBounds().contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y))) {
+
+        // SprawdŸ czy klikniêto na przycisk "High Scores"
+        if (scoresText.getGlobalBounds().contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y))) {
             setShowScores(true); // Poka¿ wyniki
         }
-        else if (quitText.getGlobalBounds().contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y))) {
-            window.close();
+        else { // Jeœli nie klikniêto na "High Scores", przeka¿ zdarzenie do obs³ugi standardowych akcji dla menu
+            if (startText.getGlobalBounds().contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y))) {
+                setStartGame(true); // Ustaw flagê na rozpoczêcie gry
+            }
+            else if (quitText.getGlobalBounds().contains(static_cast<float>(mousePos.x), static_cast<float>(mousePos.y))) {
+                window.close();
+            }
         }
     }
 }
 
-
 void Menu::update() {
-
+    // Tutaj mo¿esz dodaæ aktualizacje stanu menu, jeœli s¹ potrzebne
 }
 
 void Menu::draw() {
+    window.clear(); // Wyczyœæ ekran przed narysowaniem menu
     if (scoresScreenVisible) {
         drawScoresScreen();
     }
     else {
+        window.draw(title);
         window.draw(titleText);
         window.draw(startText);
         window.draw(scoresText);
@@ -100,6 +115,7 @@ void Menu::reset() {
     gameStartClicked = false;
     showScoresClicked = false;
     scoresScreenVisible = false;
+    scrollIndex = 0; // Resetuj tak¿e indeks przewijania ekranu wyników
 }
 
 void Menu::loadHighScores() {
@@ -120,23 +136,6 @@ void Menu::loadHighScores() {
     std::sort(highScores.begin(), highScores.end(), [](const HighScore& a, const HighScore& b) {
         return a.score > b.score;
         });
-}
-
-void Menu::drawHighScores() {
-    sf::Text highScoresText;
-    highScoresText.setFont(font);
-    highScoresText.setCharacterSize(24);
-    highScoresText.setFillColor(sf::Color::White);
-    highScoresText.setPosition(250, 400);
-
-    std::stringstream ss;
-    ss << "High Scores:\n";
-    for (size_t i = 0; i < highScores.size(); ++i) {
-        ss << i + 1 << ". " << highScores[i].playerName << ": " << highScores[i].score << "\n";
-    }
-
-    highScoresText.setString(ss.str());
-    window.draw(highScoresText);
 }
 
 void Menu::drawScoresScreen() {
@@ -201,6 +200,3 @@ void Menu::handleScoresScreenInput(sf::Event& event) {
         }
     }
 }
-
-
-

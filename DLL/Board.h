@@ -15,7 +15,7 @@ public:
     Board();
 
     void reset();
-    void draw(sf::RenderWindow& window);
+    void draw(sf::RenderWindow& window, sf::Vector2f position);
     bool isCollision(const std::vector<sf::Vector2i>& shape, sf::Vector2i position) const;
     void placeTetromino(const std::vector<sf::Vector2i>& shape, sf::Vector2i position, sf::Color color);
     int clearLines();
@@ -26,6 +26,7 @@ public:
 
 private:
     sf::Color grid[HEIGHT][WIDTH];
+    sf::Vector2i position;
 };
 
 #endif // BOARD_H

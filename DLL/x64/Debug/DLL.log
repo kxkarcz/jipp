@@ -1,5 +1,4 @@
-﻿  Board.cpp
-     Trwa tworzenie biblioteki C:\Users\Klaudia\Desktop\studia\jipp\tetris\proj\tetris\x64\Debug\DLL.lib i obiektu C:\Users\Klaudia\Desktop\studia\jipp\tetris\proj\tetris\x64\Debug\DLL.exp
+﻿  Game.cpp
   DLL.vcxproj -> C:\Users\Klaudia\Desktop\studia\jipp\tetris\proj\tetris\x64\Debug\DLL.dll
   C:\Users\Klaudia\Desktop\studia\jipp\tetris\proj\tetris\DLL\API.h
   C:\Users\Klaudia\Desktop\studia\jipp\tetris\proj\tetris\DLL\Board.h

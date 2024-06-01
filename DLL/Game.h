@@ -17,7 +17,6 @@ public:
     void draw();
     void handleInput(sf::Event& event);
 
-    void saveGame(const std::string& filename);
     void loadGame(const std::string& filename);
     void saveScore(const std::string& playerName, int score); // Deklaracja funkcji saveScore
 
@@ -25,10 +24,7 @@ public:
 
     void reset();
 private:
-
-    void endGame();
-    void drawGameOver();
-    void saveHighScore();
+    sf::Vector2f boardPosition;
 
     sf::RenderWindow& window;
     Board board;
@@ -48,7 +44,7 @@ private:
     sf::Text endGameText;  // Add these declarations
     sf::Text playerNamePromptText;
     sf::Text playerNameDisplayText;
-
+	friend class Board;
 };
 
 #endif // GAME_H
