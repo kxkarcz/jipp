@@ -6,6 +6,7 @@ Board::Board() {
 }
 
 void Board::reset() {
+	// Ustawienie wszystkich bloków planszy na kolor czarny
     for (auto& row : grid) {
         for (auto& block : row) {
             block = sf::Color::Black;
@@ -37,6 +38,7 @@ void Board::draw(sf::RenderWindow& window, sf::Vector2f position) {
 
 
 bool Board::isCollision(const std::vector<sf::Vector2i>& shape, sf::Vector2i position) const {
+	// Sprawdzenie kolizji
     for (const auto& block : shape) {
         int x = block.x + position.x;
         int y = block.y + position.y;
@@ -48,6 +50,7 @@ bool Board::isCollision(const std::vector<sf::Vector2i>& shape, sf::Vector2i pos
 }
 
 void Board::placeTetromino(const std::vector<sf::Vector2i>& shape, sf::Vector2i position, sf::Color color) {
+	// Umieszczenie tetromino na planszy
     for (const auto& block : shape) {
         int x = block.x + position.x;
         int y = block.y + position.y;
@@ -56,6 +59,7 @@ void Board::placeTetromino(const std::vector<sf::Vector2i>& shape, sf::Vector2i 
 }
 
 int Board::clearLines() {
+	// Usuniêcie pe³nych linii
     int linesCleared = 0;
     for (int y = 0; y < HEIGHT; ++y) {
         bool fullLine = true;

@@ -1,12 +1,17 @@
-﻿  Game.cpp
+﻿  Exceptions.cpp
+  Game.cpp
+  Menu.cpp
+C:\Users\Klaudia\Desktop\studia\jipp\tetris\proj\tetris\DLL\Menu.cpp(225,40): warning C4244: "argument": konwersja z "size_t" do "float", możliwa utrata danych
+  Generowanie kodu...
   DLL.vcxproj -> C:\Users\Klaudia\Desktop\studia\jipp\tetris\proj\tetris\x64\Debug\DLL.dll
   C:\Users\Klaudia\Desktop\studia\jipp\tetris\proj\tetris\DLL\API.h
   C:\Users\Klaudia\Desktop\studia\jipp\tetris\proj\tetris\DLL\Board.h
+  C:\Users\Klaudia\Desktop\studia\jipp\tetris\proj\tetris\DLL\Exceptions.h
   C:\Users\Klaudia\Desktop\studia\jipp\tetris\proj\tetris\DLL\Game.h
   C:\Users\Klaudia\Desktop\studia\jipp\tetris\proj\tetris\DLL\Klasa.h
   C:\Users\Klaudia\Desktop\studia\jipp\tetris\proj\tetris\DLL\Menu.h
   C:\Users\Klaudia\Desktop\studia\jipp\tetris\proj\tetris\DLL\Tetromino.h
-          6 file(s) copied.
+          7 file(s) copied.
   C:\Users\Klaudia\Desktop\studia\jipp\tetris\proj\tetris\x64\Debug\DLL.dll
           1 file(s) copied.
   C:\Users\Klaudia\Desktop\studia\jipp\tetris\proj\tetris\x64\Debug\DLL.lib

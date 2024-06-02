@@ -1,5 +1,6 @@
 ﻿#include "Game.h"
 #include "Menu.h"
+#include "Exceptions.h"
 #include <fstream>
 #include <stdexcept>
 #include <SFML/Graphics.hpp>
@@ -7,16 +8,17 @@
 
 Game::Game(sf::RenderWindow& window) : window(window), score(0), boardPosition(300.0f, 0.0f) {
     if (!font.loadFromFile("arial.ttf")) {
-        throw std::runtime_error("Unable to load font");
+		throw EXCEPTION_CODE::FontNotFound;
     }
 	if (!gameOverFont.loadFromFile("tetris.ttf")) {
-		throw std::runtime_error("Unable to load font");
+        throw EXCEPTION_CODE::FontNotFound;
 	}
     scoreText.setFont(font);
     scoreText.setCharacterSize(24);
     scoreText.setFillColor(sf::Color::White);
     reset();
-}
+	}
+
 
 void Game::reset() {
     board.reset();
@@ -70,37 +72,23 @@ void Game::handleInput(sf::Event& event) {
 
 
 
-
-void Game::loadGame(const std::string& filename) {
-    std::ifstream file(filename);
-    if (!file.is_open()) {
-        throw std::runtime_error("Unable to open file for loading");
-    }
-    file >> score;
-    int x, y;
-    file >> x >> y;
-    tetromino.setPosition(sf::Vector2i(x, y));
-    for (int i = 0; i < 4; ++i) {
-        file >> x >> y;
-        tetromino.setBlock(i, sf::Vector2i(x, y));
-    }
-    for (int y = 0; y < Board::HEIGHT; ++y) {
-        for (int x = 0; x < Board::WIDTH; ++x) {
-            sf::Uint32 color;
-            file >> color;
-            board.setBlock(x, y, sf::Color(color));
-        }
-    }
-    file.close();
-}
 void Game::saveScore(const std::string& playerName, int score) {
-    std::ofstream scoreFile("highscores.txt", std::ios::app);
+    std::ofstream scoreFile("highscores.dat", std::ios::binary | std::ios::app);
     if (!scoreFile.is_open()) {
-        throw std::runtime_error("Unable to open highscores file for saving");
+        throw EXCEPTION_CODE::FileForSavingNotFound;
     }
-    scoreFile << playerName << " " << score << "\n";
+
+    // Write player name length and name
+    size_t nameLength = playerName.size();
+    scoreFile.write(reinterpret_cast<const char*>(&nameLength), sizeof(nameLength));
+    scoreFile.write(playerName.c_str(), nameLength);
+
+    // Write score
+    scoreFile.write(reinterpret_cast<const char*>(&score), sizeof(score));
+
     scoreFile.close();
 }
+
 
 
 void Game::showGameOverScreen() {
@@ -170,7 +158,6 @@ void Game::showGameOverScreen() {
                     sf::Vector2f mousePos = window.mapPixelToCoords(sf::Vector2i(event.mouseButton.x, event.mouseButton.y));
                     if (saveButtonRect.getGlobalBounds().contains(mousePos)) {
                         nameEntered = true;
-                        std::cout << score << std::endl;
                         saveScore(playerName, score);
                         menu.loadHighScores();
                     }

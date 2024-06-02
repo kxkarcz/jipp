@@ -2,16 +2,17 @@
 #include <iostream>
 #include <fstream>
 #include <sstream> // Dodano nag³ówek dla stringstream
+#include "Exceptions.h"
 
 Menu::Menu(sf::RenderWindow& window) : window(window), gameStartClicked(false), showScoresClicked(false), scoresScreenVisible(false), scrollIndex(0) {
     if (!font.loadFromFile("arial.ttf")) {
-        throw std::runtime_error("Unable to load font");
+        throw EXCEPTION_CODE::FontNotFound;
     }
     if (!titleFont.loadFromFile("tetris.ttf")) {
-        throw std::runtime_error("Unable to load font");
+        throw EXCEPTION_CODE::FontNotFound;
     }
     if (!menuTexture.loadFromFile("menu.png")) {
-        throw std::runtime_error("Unable to load menu image");
+        throw EXCEPTION_CODE::ImageNotFound;
     }
 	menuSprite.setTexture(menuTexture);
 
@@ -145,24 +146,60 @@ void Menu::reset() {
 }
 
 void Menu::loadHighScores() {
-    std::ifstream file("highscores.txt");
-    if (file.is_open()) {
-        std::string line;
-        while (std::getline(file, line)) {
-            std::istringstream iss(line);
-            HighScore hs;
-            if (iss >> hs.playerName >> hs.score) {
-                highScores.push_back(hs);
-            }
-        }
-        file.close();
+    std::ifstream file("highscores.dat", std::ios::binary);
+    if (!file.is_open()) {
+        std::cerr << "Failed to open highscores file." << std::endl;
+        return;
     }
+
+    while (true) {
+        HighScore hs;
+
+        // Read player name length
+        size_t nameLength;
+        if (!file.read(reinterpret_cast<char*>(&nameLength), sizeof(nameLength))) {
+            break;  // Break if unable to read name length (end of file)
+        }
+
+        // Allocate memory for player name
+        char* nameBuffer = new (std::nothrow) char[nameLength + 1];
+        if (!nameBuffer) {
+            // Handle memory allocation failure
+			throw EXCEPTION_CODE::MemoryAllocationFailed;
+        }
+
+        // Read player name
+        if (!file.read(nameBuffer, nameLength)) {
+            // Handle read failure
+			throw EXCEPTION_CODE::FailedToReadPlayerName;
+ 
+            //delete[] nameBuffer;  // Deallocate memory before exiting
+            //break;
+        }
+        nameBuffer[nameLength] = '\0';
+        hs.playerName = std::string(nameBuffer);
+        delete[] nameBuffer;
+        // Read score
+        if (!file.read(reinterpret_cast<char*>(&hs.score), sizeof(hs.score))) {
+            // Handle read failure
+            throw EXCEPTION_CODE::FailedToReadScore;
+            //std::cerr << "Failed to read score." << std::endl;
+            //break;
+        }
+
+        // Push the HighScore object into the vector
+        highScores.push_back(hs);
+    }
+
+    file.close();
 
     // Sortujemy wyniki malej¹co
     std::sort(highScores.begin(), highScores.end(), [](const HighScore& a, const HighScore& b) {
         return a.score > b.score;
         });
 }
+
+
 
 void Menu::drawScoresScreen() {
     sf::RectangleShape background(sf::Vector2f(400, 300));

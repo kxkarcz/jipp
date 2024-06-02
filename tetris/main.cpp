@@ -3,6 +3,7 @@
 #include "Game.h"
 
 int main() {
+
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Tetris"); //Tworzymy okno o wymiarach 800x600 i tytule "Tetris"
     sf::Image icon;
     if (!icon.loadFromFile("logo.png")) {

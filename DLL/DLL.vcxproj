@@ -144,6 +144,7 @@ copy /Y "$(SolutionDir)x64\Debug\*lib" "C:\Users\Klaudia\Desktop\studia\jipp\tet
   <ItemGroup>
     <ClInclude Include="API.h" />
     <ClInclude Include="Board.h" />
+    <ClInclude Include="Exceptions.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Klasa.h" />
     <ClInclude Include="Menu.h" />
@@ -151,6 +152,7 @@ copy /Y "$(SolutionDir)x64\Debug\*lib" "C:\Users\Klaudia\Desktop\studia\jipp\tet
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
+    <ClCompile Include="Exceptions.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Klasa.cpp" />
     <ClCompile Include="Menu.cpp" />
