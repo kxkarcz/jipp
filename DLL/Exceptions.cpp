@@ -14,6 +14,8 @@ std::string exception_message(EXCEPTION_CODE error) {
 		return "Failed to read player name!";
     case EXCEPTION_CODE::FailedToReadScore:
 		return "Failed to read score!";
+	case EXCEPTION_CODE::FailedToOpenHighscoresFile:
+		return "Failed to open highscores file!";
     default:
         return "Unknown error!";
     }

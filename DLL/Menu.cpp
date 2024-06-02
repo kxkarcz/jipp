@@ -148,8 +148,7 @@ void Menu::reset() {
 void Menu::loadHighScores() {
     std::ifstream file("highscores.dat", std::ios::binary);
     if (!file.is_open()) {
-        std::cerr << "Failed to open highscores file." << std::endl;
-        return;
+		throw EXCEPTION_CODE::FailedToOpenHighscoresFile;
     }
 
     while (true) {
@@ -183,8 +182,7 @@ void Menu::loadHighScores() {
         if (!file.read(reinterpret_cast<char*>(&hs.score), sizeof(hs.score))) {
             // Handle read failure
             throw EXCEPTION_CODE::FailedToReadScore;
-            //std::cerr << "Failed to read score." << std::endl;
-            //break;
+
         }
 
         // Push the HighScore object into the vector

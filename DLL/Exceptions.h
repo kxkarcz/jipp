@@ -12,6 +12,7 @@ enum class EXPORT_API EXCEPTION_CODE {
 	MemoryAllocationFailed,
 	FailedToReadPlayerName,
 	FailedToReadScore,
+	FailedToOpenHighscoresFile
 };
 
 std::string EXPORT_API exception_message(EXCEPTION_CODE error);

@@ -1,4 +1,6 @@
 #pragma once
+#ifndef MENU_H
+#define MENU_H
 #include <SFML/Graphics.hpp>
 #include "API.h"
 #include "Game.h"
@@ -46,3 +48,4 @@ public:
     void setShowScores(bool shouldShow);
     void reset();
 };
+#endif // MENU_H
