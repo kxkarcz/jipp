@@ -27,22 +27,36 @@ void Game::reset() {
 }
 
 void Game::update() {
-    if (clock.getElapsedTime().asSeconds() >= 1.0f) {
+    // Bazowa prędkość spadania klocka
+    float baseSpeed = 1.0f;
+
+    // Prędkość, która będzie zwiększała się wraz z postępem gry
+    float speedIncrement = 0.05f;
+
+    // Aktualna prędkość spadania klocka
+    float currentSpeed;
+    if (score < 9) {
+        currentSpeed = baseSpeed - speedIncrement * score; //
+    }
+
+    if (clock.getElapsedTime().asSeconds() >= currentSpeed) {
         if (!tetromino.moveDown(board)) {
             board.placeTetromino(tetromino.getShape(), tetromino.getPosition(), tetromino.getColor());
             score += board.clearLines();
             tetromino.reset();
             if (board.checkGameOver(tetromino.getShape(), tetromino.getPosition())) {
-                showGameOverScreen(); // Wywo�anie ekranu gratulacyjnego po przegranej grze
-                reset(); // Zresetowanie gry po przegranej
+                showGameOverScreen();
+                reset();
             }
         }
         clock.restart();
     }
     scoreText.setString("Score: " + std::to_string(score));
-	scoreText.setPosition(window.getSize().x - scoreText.getLocalBounds().width - 600, 10);
-	scoreText.setCharacterSize(40);
+    scoreText.setPosition(window.getSize().x - scoreText.getLocalBounds().width - 600, 10);
+    scoreText.setCharacterSize(40);
 }
+
+
 
 void Game::draw() {
 

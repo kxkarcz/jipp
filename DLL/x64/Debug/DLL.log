@@ -1,7 +1,4 @@
 ﻿  Game.cpp
-  Menu.cpp
-C:\Users\Klaudia\Desktop\studia\jipp\tetris\proj\tetris\DLL\Menu.cpp(223,40): warning C4244: "argument": konwersja z "size_t" do "float", możliwa utrata danych
-  Generowanie kodu...
   DLL.vcxproj -> C:\Users\Klaudia\Desktop\studia\jipp\tetris\proj\tetris\x64\Debug\DLL.dll
   C:\Users\Klaudia\Desktop\studia\jipp\tetris\proj\tetris\DLL\API.h
   C:\Users\Klaudia\Desktop\studia\jipp\tetris\proj\tetris\DLL\Board.h

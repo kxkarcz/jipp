@@ -25,7 +25,7 @@ public:
     void reset();
 private:
     sf::Vector2f boardPosition;
-
+    int linesCleared;
     sf::RenderWindow& window;
     Board board;
     Tetromino tetromino;
