@@ -22,3 +22,5 @@ Prosty projekt gry Tetris, napisany w języku C++ przy użyciu biblioteki SFML. 
 
    ![image](https://github.com/kxkarcz/jipp/assets/76162499/5208441d-83a1-4721-9110-a50b70595fd4)
 
+
+
